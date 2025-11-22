@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио Backend Разработчика (FastAPI)</title>
+    <style>
+        body { 
+            font-family: sans-serif; 
+            line-height: 1.6; 
+            margin: 20px; 
+            background-color: #f4f4f9; 
+            color: #333; 
+            opacity: 0; 
+            transition: opacity 0.8s ease-in 0.3s; 
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: auto; 
+            background: rgba(255, 255, 255, 0.85); /* Полупрозрачный фон для контейнера */
+            padding: 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            backdrop-filter: blur(10px); /* Эффект блюра */
+        }
+        h1, h2 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        .section { margin-bottom: 40px; transition: opacity 0.8s ease-in, transform 0.8s ease-in; padding: 15px; border-radius: 10px; background: rgba(255, 255, 255, 0.7); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        
+        /* Стилизация Контента */
+        .tech-stack ul { list-style-type: none; padding-left: 0; display: flex; flex-wrap: wrap; gap: 12px;}
+        .tech-stack li { background: #e0e0e0; padding: 10px 18px; border-radius: 20px; cursor: pointer; transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; }
+        .tech-stack li:hover { background-color: #d0d0d0; transform: scale(1.08) translateY(-3px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); }
+        .info-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.15); transform: translateY(-3px); }
+        a { color: #3498db; text-decoration: none; transition: color 0.3s; }
+        a:hover { color: #1e88e5; text-decoration: underline; }
+
+        /* Анимация появления */
+        .fade-in { opacity: 0; transform: translateY(20px); }
+        .loaded .fade-in { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+        body.loaded { opacity: 1; }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('loaded');
+            // Удален скрипт имитации карусели
+        });
+    </script>
+</head>
+<body onload="document.body.classList.add('loaded')">
+    <div class="container">
+        
+        <!-- HEADER (Упрощенный: только заголовок и информация о заказе) -->
+        <header style="margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+            <h1 style="font-size: 2.5em; border-bottom: none;">Портфолио Backend Разработчика (MVP, Автоматизация)</h1>
+        </header>
+
+        <!-- SECTION 1: MVP & Freelance Link -->
+        <div class="section fade-in">
+            <h2>Разработка MVP</h2>
+            <p style="font-size: 1.1em;">{{ data.services[0].description }}</p>
+            <p style="margin-top: 15px;">
+                <!-- Ссылка на фриланс -->
+                <a href="https://www.fl.ru/users/afkonix/profile/" target="_blank" class="fl-link-btn" style="padding: 8px 15px; font-size: 0.9em;">Заказать можно здесь</a>
+            </p>
+        </div>
+
+
+        <!-- MAIN CONTENT GRID (Tech Stack | Services) -->
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px; margin-top: 40px;">
+            
+            <!-- LEFT COLUMN: Tech Stack -->
+            <div class="section fade-in">
+                <h2 style="border-bottom: none;"><span style="border-bottom: 3px solid #2ecc71; padding-bottom: 10px; color: #2ecc71;">Tech Stack</span></h2>
+                
+                <div class="tech-stack" style="margin-bottom: 25px;">
+                    <h4>Backend:</h4>
+                    <ul>
+                        {% for item in data.tech_stack.backend %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="tech-stack" style="margin-bottom: 25px;">
+                    <h4>Automation:</h4>
+                    <ul>
+                        {% for item in data.tech_stack.data_automation %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="tech-stack">
+                    <h4>Bots:</h4>
+                    <ul>
+                        {% for item in data.tech_stack.telegram_bots %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Services -->
+            <div class="section fade-in">
+                <h2 style="border-bottom: none;"><span style="border-bottom: 3px solid #f39c12; padding-bottom: 10px; color: #f39c12;">Services</span></h2>
+                {% for service in data.services %}
+                <div class="info-card" style="background: #fefefe; padding: 18px; border-radius: 10px; margin-bottom: 18px; border-left: 5px solid #f39c12; transition: all 0.3s;">
+                    <h4 style="margin-top: 0; color: #333;">{{ service.title }}</h4>
+                    <p style="font-size: 0.95em; color: #555;">{{ service.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- FOOTER / GITHUB INFO -->
+        <div class="section fade-in" style="text-align: center; background: none; box-shadow: none; padding: 20px 0; margin-top: 50px;">
+            <h2 style="border-bottom: none;"><span style="border-bottom: 2px solid #3498db; padding-bottom: 10px;">Примеры кода</span></h2>
+            <p>Мои наработки и проекты я публикую на GitHub: 
+                <a href="http://{{ data.github_url }}" target="_blank">{{ data.github_url }}</a> 
+                (профиль пополняется).
+            </p>
+            <p style="margin-top: 25px; font-size: 0.9em; color: #666; padding: 10px; border-top: 1px solid #eee;">Условия работы: {{ data.work_conditions }}</p>
+        </div>
+
+    </div>
+</body>
+</html>
